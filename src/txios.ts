@@ -1,6 +1,16 @@
-// Import here Polyfills if needed. Recommended core-js (npm i -D core-js)
-  // import "core-js/fn/array.find"
-  // ...
-export default class DummyClass {
+import { TxiosInstance } from "./types";
+import Txios from "./core/txios";
+import { extend } from "./helpers/util";
 
+function createInstance(): TxiosInstance {
+  const context = new Txios()
+  const instance = Txios.prototype.request.bind(context)
+
+  extend(instance, context)
+
+  return instance as TxiosInstance
 }
+
+const txios = createInstance()
+
+export default txios
