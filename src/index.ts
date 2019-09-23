@@ -4,6 +4,8 @@ import { transformRequest, transformResponse } from './helpers/data'
 import { processHeaders } from './helpers/headers'
 import xhr from './xhr'
 
+export * from './types'
+
 export default function axios(config: TxiosRequestConfig): TxiosPromise {
   processConfig(config)
   return xhr(config).then(res => transformResponseData(res))
