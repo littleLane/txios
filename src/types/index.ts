@@ -26,13 +26,14 @@ export type Method =
   'patch' | 'PATCH'
 
 export interface TxiosRequestConfig {
-  url: string;
+  url?: string;
   method?: Method;
   data?: any;
   params?: any;
   headers?: any;
   responseType?: XMLHttpRequestResponseType;
   timeout?: number;
+  [propName: string]: any;
 }
 
 export interface TxiosResponse<T = any> {

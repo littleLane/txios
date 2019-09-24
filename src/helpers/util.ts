@@ -15,7 +15,7 @@ export const isType = (data: any, type: string): boolean => {
  * 用于判断是否为对象
  * @param data
  */
-export const isObject = (data: any): boolean => {
+export const isPlainObject = (data: any): boolean => {
   return data && typeof data === 'object'
 }
 
@@ -40,4 +40,24 @@ export function extend<T, U>(to: T, from: U): T & U {
   }
 
   return to as T & U
+}
+
+export function deepMerge(...objs: any[]): any {
+  const result = Object.create(null)
+
+  objs.forEach(obj => {
+    if (obj) {
+      Object.keys(obj).forEach(key => {
+        const val = obj[key]
+        if (isPlainObject(val)) {
+          const resultVal = result[key]
+          result[key] = deepMerge(isPlainObject(resultVal) ? resultVal : {}, val)
+        } else {
+          result[key] = val
+        }
+      })
+    }
+  })
+
+  return result
 }

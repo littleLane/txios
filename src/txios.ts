@@ -1,9 +1,10 @@
-import { TxiosInstance } from "./types";
+import { TxiosInstance, TxiosRequestConfig } from "./types";
 import Txios from "./core/txios";
 import { extend } from "./helpers/util";
+import defaults from './defaults'
 
-function createInstance(): TxiosInstance {
-  const context = new Txios()
+function createInstance(config: TxiosRequestConfig): TxiosInstance {
+  const context = new Txios(config)
   const instance = Txios.prototype.request.bind(context)
 
   extend(instance, context)
@@ -11,6 +12,6 @@ function createInstance(): TxiosInstance {
   return instance as TxiosInstance
 }
 
-const txios = createInstance()
+const txios = createInstance(defaults)
 
 export default txios

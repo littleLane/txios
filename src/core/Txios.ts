@@ -1,6 +1,7 @@
 import { TxiosRequestConfig, TxiosPromise, Method, TxiosResponse, ResolvedFn, RejectedFn } from '../types'
 import dispatchRequest from './dispatchRequest'
 import InterceptorManager from './interceptorManager'
+import mergeConfig from './mergeConfig'
 
 interface Interceptors {
   request: InterceptorManager<TxiosRequestConfig>
@@ -13,9 +14,11 @@ interface PromiseChain {
 }
 
 export default class Txios {
+  defaults: TxiosRequestConfig
   interceptors: Interceptors
 
-  constructor() {
+  constructor(initConfig: TxiosRequestConfig) {
+    this.defaults = initConfig
     this.interceptors = {
       request: new InterceptorManager<TxiosRequestConfig>(),
       response: new InterceptorManager<TxiosResponse>()
@@ -29,6 +32,8 @@ export default class Txios {
     } else {
       config = url
     }
+
+    config = mergeConfig(this.defaults, config)
 
     const chain: PromiseChain[] = [{
       resolved: dispatchRequest,

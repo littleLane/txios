@@ -1,7 +1,7 @@
 import { TxiosRequestConfig, TxiosPromise, TxiosResponse } from "../types";
 import { buildUrl } from '../helpers/url'
 import { transformRequest, transformResponse } from '../helpers/data'
-import { processHeaders } from '../helpers/headers'
+import { processHeaders, flattenHeaders } from '../helpers/headers'
 import xhr from '../xhr'
 
 export default function dispatchRequest(config: TxiosRequestConfig): TxiosPromise {
@@ -14,12 +14,13 @@ function processConfig(config: TxiosRequestConfig): void {
   config.url = transformUrl(config)
   config.headers = transformHeaders(config)
   config.data = transformRequestData(config)
+  config.headers = flattenHeaders(config.headers, config.method!)
 }
 
 // 处理请求路径
 function transformUrl(config: TxiosRequestConfig): string {
   const { url, params } = config
-  return buildUrl(url, params)
+  return buildUrl(url!, params)
 }
 
 // 处理请求参数
