@@ -2,7 +2,7 @@ import { TxiosRequestConfig, TxiosPromise, Method } from '../types'
 import dispatchRequest from './dispatchRequest'
 
 export default class Txios {
-  request(url: any, config: any): TxiosPromise {
+  request(url: any, config?: any): TxiosPromise {
     if (typeof url === 'string') {
       config = config || {}
       config.url = url
