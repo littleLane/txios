@@ -53,3 +53,17 @@ export interface TxiosError extends Error {
   response: TxiosResponse;
   isTxiosError: boolean;
 }
+
+export interface TxiosInterceptorManager<T> {
+  use(resolved: ResolvedFn<T>, rejected?: RejectedFn): number;
+
+  eject(id: number): void;
+}
+
+export interface ResolvedFn<T = any> {
+  (val: T): T | Promise<T>
+}
+
+export interface RejectedFn {
+  (error: any): any
+}
