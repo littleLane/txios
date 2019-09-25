@@ -75,3 +75,6 @@ export interface RejectedFn {
   (error: any): any
 }
 
+export interface TxiosStatic extends TxiosInstance {
+  create(config?: TxiosRequestConfig): TxiosInstance
+}

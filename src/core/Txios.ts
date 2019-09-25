@@ -1,4 +1,4 @@
-import { TxiosRequestConfig, TxiosPromise, Method, TxiosResponse, ResolvedFn, RejectedFn } from '../types'
+import { TxiosRequestConfig, TxiosPromise, Method, TxiosResponse, ResolvedFn, RejectedFn, TxiosStatic } from '../types'
 import dispatchRequest from './dispatchRequest'
 import InterceptorManager from './interceptorManager'
 import mergeConfig from './mergeConfig'
@@ -107,7 +107,3 @@ export default class Txios {
     )
   }
 }
-
-
-
-
