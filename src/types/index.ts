@@ -34,6 +34,12 @@ export interface TxiosRequestConfig {
   responseType?: XMLHttpRequestResponseType;
   timeout?: number;
   [propName: string]: any;
+  transformRequest?: TxiosTransformer | TxiosTransformer[];
+  transformResponse?: TxiosTransformer | TxiosTransformer[];
+}
+
+export interface TxiosTransformer {
+  (data?: any, headers?: any): any
 }
 
 export interface TxiosResponse<T = any> {
@@ -68,3 +74,4 @@ export interface ResolvedFn<T = any> {
 export interface RejectedFn {
   (error: any): any
 }
+
