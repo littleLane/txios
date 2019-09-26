@@ -21,6 +21,7 @@ export default function xhr(config: TxiosRequestConfig): TxiosPromise {
       onDownloadProgress,
       onUploadProgress,
       auth,
+      validateStatus,
     } = config
 
     const xhrequest = new XMLHttpRequest()
@@ -151,20 +152,20 @@ export default function xhr(config: TxiosRequestConfig): TxiosPromise {
     }
 
     // 处理响应状态
-    function handleResponse(response: TxiosResponse) {
-      if (response.status >= 200 && response.status < 300 || response.status === 304) {
+    function handleResponse(response: TxiosResponse): void {
+      if (!validateStatus || validateStatus(response.status)) {
         resolve(response)
       } else {
-        reject(createError(
-          `Request failed with status code ${response.status}`,
-          config,
-          null,
-          xhrequest,
-          response
-        ))
+        reject(
+          createError(
+            `Request failed with status code ${response.status}`,
+            config,
+            null,
+            xhrequest,
+            response
+          )
+        )
       }
     }
   })
 }
-
-
