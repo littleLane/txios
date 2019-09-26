@@ -36,6 +36,7 @@ export interface TxiosRequestConfig {
   [propName: string]: any;
   transformRequest?: TxiosTransformer | TxiosTransformer[];
   transformResponse?: TxiosTransformer | TxiosTransformer[];
+  cancelToken?: CancelToken;
 }
 
 export interface TxiosTransformer {
@@ -76,5 +77,43 @@ export interface RejectedFn {
 }
 
 export interface TxiosStatic extends TxiosInstance {
-  create(config?: TxiosRequestConfig): TxiosInstance
+  create(config?: TxiosRequestConfig): TxiosInstance;
+
+  CancelToken: CancelTokenStatic;
+  Cancel: CancelStatic;
+  isCancel: (value: any) => boolean;
+}
+
+// 请求取消
+export interface CancelToken {
+  promise: Promise<Cancel>;
+  reason?: Cancel;
+
+  throwIfRequested(): void;
+}
+
+export interface Canceler {
+  (message?: string): void
+}
+
+export interface CancelExecutor {
+  (cancel: Canceler): void
+}
+
+export interface CancelTokenSource {
+  token: CancelToken;
+  cancel: Canceler;
+}
+
+export interface CancelTokenStatic {
+  new(excutor: CancelExecutor): CancelToken;
+  source(): CancelTokenSource;
+}
+
+export interface Cancel {
+  message?: string;
+}
+
+export interface CancelStatic {
+  new(message?: string): Cancel
 }

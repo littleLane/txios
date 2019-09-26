@@ -6,6 +6,7 @@ import xhr from '../xhr'
 import transform from "./transform";
 
 export default function dispatchRequest(config: TxiosRequestConfig): TxiosPromise {
+  throwIfCancellationRequested(config)
   processConfig(config)
   return xhr(config).then(res => transformResponseData(res))
 }
@@ -38,4 +39,10 @@ function transformHeaders(config: TxiosRequestConfig): any {
 function transformResponseData(res: TxiosResponse): TxiosResponse {
   res.data = transform(res.data, res.headers, res.config.transformResponse)
   return res
+}
+
+function throwIfCancellationRequested(config: TxiosRequestConfig): void {
+  if (config.cancelToken) {
+    config.cancelToken.throwIfRequested()
+  }
 }

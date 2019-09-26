@@ -4,7 +4,7 @@ import { createError } from './helpers/error'
 
 export default function xhr(config: TxiosRequestConfig): TxiosPromise {
   return new Promise((resolve, reject) => {
-    const { url, method = 'get', data = null, headers, responseType, timeout } = config
+    const { url, method = 'get', data = null, headers, responseType, timeout, cancelToken } = config
 
     const xhrequest = new XMLHttpRequest()
 
@@ -13,7 +13,7 @@ export default function xhr(config: TxiosRequestConfig): TxiosPromise {
     }
 
     // 开启一个链接
-    xhrequest.open(method.toUpperCase(), url, true)
+    xhrequest.open(method.toUpperCase(), url!, true)
 
     // 监听状态变化
     xhrequest.onreadystatechange = function handleLoad() {
@@ -89,6 +89,14 @@ export default function xhr(config: TxiosRequestConfig): TxiosPromise {
           response
         ))
       }
+    }
+
+    if (cancelToken) {
+      // tslint:disable-next-line: no-floating-promises
+      cancelToken.promise.then(reason => {
+        xhrequest.abort()
+        reject(reason)
+      })
     }
   })
 }
