@@ -4,9 +4,13 @@ import { createError } from './helpers/error'
 
 export default function xhr(config: TxiosRequestConfig): TxiosPromise {
   return new Promise((resolve, reject) => {
-    const { url, method = 'get', data = null, headers, responseType, timeout, cancelToken } = config
+    const { url, method = 'get', data = null, headers, responseType, timeout, cancelToken, withCredentials } = config
 
     const xhrequest = new XMLHttpRequest()
+
+    if (withCredentials) {
+      xhrequest.withCredentials = true
+    }
 
     if (responseType) {
       xhrequest.responseType = responseType

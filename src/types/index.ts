@@ -37,6 +37,7 @@ export interface TxiosRequestConfig {
   transformRequest?: TxiosTransformer | TxiosTransformer[];
   transformResponse?: TxiosTransformer | TxiosTransformer[];
   cancelToken?: CancelToken;
+  withCredentials?: boolean;
 }
 
 export interface TxiosTransformer {
