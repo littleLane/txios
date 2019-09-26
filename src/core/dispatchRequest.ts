@@ -1,5 +1,5 @@
 import { TxiosRequestConfig, TxiosPromise, TxiosResponse } from "../types";
-import { buildUrl } from '../helpers/url'
+import { buildUrl, isAbsoluteURL, combineURL } from '../helpers/url'
 import { transformRequest } from '../helpers/data'
 import { processHeaders, flattenHeaders } from '../helpers/headers'
 import xhr from './xhr'
@@ -20,7 +20,12 @@ function processConfig(config: TxiosRequestConfig): void {
 
 // 处理请求路径
 function transformUrl(config: TxiosRequestConfig): string {
-  const { url, params, paramsSerializer } = config
+  let { url, params, paramsSerializer, baseURL } = config
+
+  if (baseURL && !isAbsoluteURL(url!)) {
+    url = combineURL(baseURL, url);
+  }
+
   return buildUrl(url!, params, paramsSerializer)
 }
 
