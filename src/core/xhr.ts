@@ -20,6 +20,7 @@ export default function xhr(config: TxiosRequestConfig): TxiosPromise {
       xsrfHeaderName,
       onDownloadProgress,
       onUploadProgress,
+      auth,
     } = config
 
     const xhrequest = new XMLHttpRequest()
@@ -122,6 +123,10 @@ export default function xhr(config: TxiosRequestConfig): TxiosPromise {
         if (xsrfValue) {
           headers[xsrfHeaderName!] = xsrfValue
         }
+      }
+
+      if (auth) {
+        headers['Authorization'] = `Basic ${btoa(`${auth.username}:${auth.password}`)}`
       }
 
       // 设置请求头

@@ -23,7 +23,7 @@ stratKeysFromVal2.forEach(key => {
 })
 
 // 针对 headers 字段的合并器
-const stratKeysDeepMerge = ['headers']
+const stratKeysDeepMerge = ['headers', 'auth']
 
 function deepMergeStrat(val1: any, val2: any): any {
   if (isPlainObject(val2)) {
