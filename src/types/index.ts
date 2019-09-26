@@ -44,6 +44,7 @@ export interface TxiosRequestConfig {
   onUploadProgress?: (e: ProgressEvent) => void;
   auth?: AxiosBasicCredentials;
   validateStatus(status: number): boolean;
+  paramsSerializer?: (params: any) => string;
 }
 
 export interface AxiosBasicCredentials {

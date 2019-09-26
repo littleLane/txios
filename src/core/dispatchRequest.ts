@@ -20,8 +20,8 @@ function processConfig(config: TxiosRequestConfig): void {
 
 // 处理请求路径
 function transformUrl(config: TxiosRequestConfig): string {
-  const { url, params } = config
-  return buildUrl(url!, params)
+  const { url, params, paramsSerializer } = config
+  return buildUrl(url!, params, paramsSerializer)
 }
 
 // 处理请求参数
