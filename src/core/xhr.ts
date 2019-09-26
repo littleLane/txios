@@ -1,15 +1,36 @@
-import { TxiosRequestConfig, TxiosResponse, TxiosPromise } from './types'
-import { parseHeaders } from './helpers/headers'
-import { createError } from './helpers/error'
+import { TxiosRequestConfig, TxiosResponse, TxiosPromise } from '../types'
+import { parseHeaders } from '../helpers/headers'
+import { createError } from '../helpers/error'
+import { isURLSameOrigin } from '../helpers/url'
+import cookie from '../helpers/cookie'
 
 export default function xhr(config: TxiosRequestConfig): TxiosPromise {
   return new Promise((resolve, reject) => {
-    const { url, method = 'get', data = null, headers, responseType, timeout, cancelToken, withCredentials } = config
+    const {
+      url,
+      method = 'get',
+      data = null,
+      headers,
+      responseType,
+      timeout,
+      cancelToken,
+      withCredentials,
+      xsrfCookieName,
+      xsrfHeaderName
+    } = config
 
     const xhrequest = new XMLHttpRequest()
 
     if (withCredentials) {
       xhrequest.withCredentials = true
+    }
+
+    if ((withCredentials || isURLSameOrigin(url!)) && xsrfCookieName) {
+      const xsrfValue = cookie.read(xsrfCookieName)
+
+      if (xsrfValue) {
+        headers[xsrfHeaderName!] = xsrfValue
+      }
     }
 
     if (responseType) {

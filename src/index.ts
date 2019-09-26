@@ -2,7 +2,7 @@ import { TxiosRequestConfig, TxiosPromise, TxiosResponse } from './types'
 import { buildUrl } from './helpers/url'
 import { transformRequest, transformResponse } from './helpers/data'
 import { processHeaders } from './helpers/headers'
-import xhr from './xhr'
+import xhr from './core/xhr'
 
 export * from './types'
 
@@ -21,7 +21,7 @@ function processConfig(config: TxiosRequestConfig): void {
 // 处理请求路径
 function transformUrl(config: TxiosRequestConfig): string {
   const { url, params } = config
-  return buildUrl(url, params)
+  return buildUrl(url!, params)
 }
 
 // 处理请求参数

@@ -1,8 +1,8 @@
 import { TxiosRequestConfig, TxiosPromise, TxiosResponse } from "../types";
 import { buildUrl } from '../helpers/url'
-import { transformRequest, transformResponse } from '../helpers/data'
+import { transformRequest } from '../helpers/data'
 import { processHeaders, flattenHeaders } from '../helpers/headers'
-import xhr from '../xhr'
+import xhr from './xhr'
 import transform from "./transform";
 
 export default function dispatchRequest(config: TxiosRequestConfig): TxiosPromise {

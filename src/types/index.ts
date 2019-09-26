@@ -38,6 +38,8 @@ export interface TxiosRequestConfig {
   transformResponse?: TxiosTransformer | TxiosTransformer[];
   cancelToken?: CancelToken;
   withCredentials?: boolean;
+  xsrfCookieName?: string;
+  xsrfHeaderName?: string;
 }
 
 export interface TxiosTransformer {
