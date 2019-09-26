@@ -9,11 +9,17 @@ export interface Txios {
   post<T = any>(url: string, data?: any, config?: TxiosRequestConfig): TxiosPromise<T>;
   put<T = any>(url: string, data?: any, config?: TxiosRequestConfig): TxiosPromise<T>;
   patch<T = any>(url: string, data?: any, config?: TxiosRequestConfig): TxiosPromise<T>;
+
+  getUri(config?: TxiosRequestConfig): string;
 }
 
 export interface TxiosInstance extends Txios {
   <T = any>(config: TxiosRequestConfig): TxiosPromise<T>;
   <T = any>(url: string, config?: TxiosRequestConfig): TxiosPromise<T>;
+}
+
+export interface TxiosClassStatic {
+  new (config: TxiosRequestConfig): Txios;
 }
 
 export type Method =
@@ -96,6 +102,11 @@ export interface TxiosStatic extends TxiosInstance {
   CancelToken: CancelTokenStatic;
   Cancel: CancelStatic;
   isCancel: (value: any) => boolean;
+
+  all<T>(promise: Array<T | Promise<T>>): Promise<T[]>;
+  spread<T, R>(callbak: (...args: T[]) => R): (arr: T[]) => R;
+
+  Txios: TxiosClassStatic
 }
 
 // 请求取消

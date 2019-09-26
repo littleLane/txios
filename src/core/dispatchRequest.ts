@@ -19,7 +19,7 @@ function processConfig(config: TxiosRequestConfig): void {
 }
 
 // 处理请求路径
-function transformUrl(config: TxiosRequestConfig): string {
+export function transformUrl(config: TxiosRequestConfig): string {
   let { url, params, paramsSerializer, baseURL } = config
 
   if (baseURL && !isAbsoluteURL(url!)) {
