@@ -3,6 +3,7 @@ import { parseHeaders } from '../helpers/headers'
 import { createError } from '../helpers/error'
 import { isURLSameOrigin } from '../helpers/url'
 import cookie from '../helpers/cookie'
+import { isFormData } from '../helpers/util'
 
 export default function xhr(config: TxiosRequestConfig): TxiosPromise {
   return new Promise((resolve, reject) => {
@@ -16,7 +17,9 @@ export default function xhr(config: TxiosRequestConfig): TxiosPromise {
       cancelToken,
       withCredentials,
       xsrfCookieName,
-      xsrfHeaderName
+      xsrfHeaderName,
+      onDownloadProgress,
+      onUploadProgress,
     } = config
 
     const xhrequest = new XMLHttpRequest()
@@ -31,6 +34,14 @@ export default function xhr(config: TxiosRequestConfig): TxiosPromise {
       if (xsrfValue) {
         headers[xsrfHeaderName!] = xsrfValue
       }
+    }
+
+    if (typeof onDownloadProgress === 'function') {
+      xhrequest.onprogress = onDownloadProgress
+    }
+
+    if (typeof onUploadProgress === 'function') {
+      xhrequest.upload.onprogress = onUploadProgress
     }
 
     if (responseType) {
@@ -97,6 +108,10 @@ export default function xhr(config: TxiosRequestConfig): TxiosPromise {
         xhrequest.setRequestHeader(key, headers[key])
       }
     })
+
+    if (isFormData(data)) {
+      delete headers['Content-Type']
+    }
 
     // 发送请求
     xhrequest.send(data)
